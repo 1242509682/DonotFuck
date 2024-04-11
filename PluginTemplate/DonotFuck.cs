@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using System.Reflection;
+using Terraria;
 using TerrariaApi.Server;
 using TShockAPI;
 using TShockAPI.Hooks;
@@ -12,21 +13,25 @@ namespace DonotFuck
         //作者名称
         public override string Author => "Cai 羽学修改";
         //插件的一句话描述
-        public override string Description => "拒绝脏话";
+        public override string Description => "禁止脏话";
         //插件的名称
         public override string Name => "Don't Fuck";
         //插件的版本
         public override Version Version => new Version(2, 0, 0);
 
         internal static Configuration Config; //将Config初始化
+        public static bool Enabled; // 存储插件是否Enabled的状态，默认为false
+        string SaveDir = Path.Combine(TShock.SavePath, "禁止脏话");
 
+        //插件的构造器
         public Plugin(Main game) : base(game)
         {
             Config = new Configuration();
             // 确保Config和DirtyWords都已经初始化
             if (Config == null || Config.DirtyWords == null)
-            throw new InvalidOperationException("\n配置未正确初始化。");
+                throw new InvalidOperationException("\n配置未正确初始化。");
         }
+
 
         //插件加载时执行的代码
         public override void Initialize()
@@ -51,7 +56,7 @@ namespace DonotFuck
         private void OnChat(ServerChatEventArgs args)
         {
             TSPlayer player = TShock.Players[args.Who];
-            
+
             if (player == null || args.Who == null || player.HasPermission("Civilized") || player.Group.Name.Equals("owner", StringComparison.OrdinalIgnoreCase))
             {
                 return;
@@ -73,6 +78,7 @@ namespace DonotFuck
                 string Text = args.Text; // 原始发言内容
                 List<string> BadWordList = new List<string>(); // 存储玩家准确的脏话词语
 
+                // 遍历脏话表检查是否有匹配项
                 foreach (var badWord in Config.DirtyWords)
                 {
                     if (Text.Contains(badWord, StringComparison.OrdinalIgnoreCase))

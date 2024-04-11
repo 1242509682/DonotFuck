@@ -6,7 +6,7 @@ namespace DonotFuck
     public class Configuration
     {
         [JsonProperty("是否封禁")]
-        public bool Ban = true; // 分钟
+        public bool Ban = true;
 
         [JsonProperty("封禁时长")]
         public int ProhibitionTime = 10; // 分钟

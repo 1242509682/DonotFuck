@@ -27,8 +27,8 @@ namespace DonotFuck
         {
             lock (_bans)
             {
-                if (_bans.ContainsKey(name))
-                {
+            if (_bans.ContainsKey(name))
+            {
                     _bans[name] = 0;
                 }
             }
