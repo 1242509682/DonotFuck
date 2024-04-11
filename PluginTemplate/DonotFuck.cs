@@ -65,7 +65,7 @@ namespace DonotFuck
 
             // 遍历脏话列表，计算本次聊天触发的脏话数量
             foreach (var badWord in Config.DirtyWords)
-            {
+                {
                 if (args.Text.Contains(badWord, StringComparison.OrdinalIgnoreCase))
                 {
                     WordsCount++;
@@ -89,20 +89,20 @@ namespace DonotFuck
 
                 // 如果有触发脏话，显示给玩家的信息
                 if (BadWordList.Any())
-                {
+                    {
                     string ShowBadWords = "";
                     foreach (string badWord in BadWordList)
-                    {
+                        {
                         ShowBadWords += $"- {badWord}\n";
-                    }
+                        }
                     TSPlayer.All.SendInfoMessage($"玩家[c/FFCCFF:{player.Name}]触发了以下敏感词：\n{ShowBadWords.TrimEnd('\n')}");
 
                     // 输出准确的脏话词语到控制台
                     foreach (string badWord in BadWordList)
-                    {
+                        {
                         TShock.Log.ConsoleInfo($"玩家 [{player.Name}] 发言中的脏话：{badWord}");
+                        }
                     }
-                }
 
                 var Count = Ban.Trigger(player.Name);
 
@@ -123,8 +123,8 @@ namespace DonotFuck
                         return;
                     }
                 }
-            }
-        }
+                    }
+                }
 
         // 定义获取原始文本中精确匹配脏话的辅助函数
         private static IEnumerable<string> GetExactMatches(string text, string badWord)
