@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.8.34330.188
+VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DonotFuck", "PluginTemplate\DonotFuck.csproj", "{1303CA0A-C00B-4A59-B5FE-F592A18ACEA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DonotFuck", "DonotFuck.csproj", "{31337978-315E-413E-82EE-C43A18672BBA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1303CA0A-C00B-4A59-B5FE-F592A18ACEA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1303CA0A-C00B-4A59-B5FE-F592A18ACEA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1303CA0A-C00B-4A59-B5FE-F592A18ACEA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1303CA0A-C00B-4A59-B5FE-F592A18ACEA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31337978-315E-413E-82EE-C43A18672BBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31337978-315E-413E-82EE-C43A18672BBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31337978-315E-413E-82EE-C43A18672BBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31337978-315E-413E-82EE-C43A18672BBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {15F8F178-74C3-4634-B765-0152B5E34B35}
+		SolutionGuid = {EDBC3227-28CB-4482-832D-19A4AB2784FF}
 	EndGlobalSection
 EndGlobal
