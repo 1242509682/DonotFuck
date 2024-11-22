@@ -27,8 +27,10 @@ internal class Commands
             {
                 var Enabled = Config.Log;
                 Config.Log = !Enabled;
-                var Status = Enabled ? "禁用" : "启用";
-                args.Player.SendSuccessMessage($"已{Status}敏感词记录功能。");
+                var Status = Enabled ?
+                    GetString("禁用") :
+                    GetString("启用");
+                args.Player.SendSuccessMessage(GetString($"已{Status}敏感词记录功能。"));
                 Config.Write();
                 return;
             }

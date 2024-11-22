@@ -14,7 +14,7 @@ public class Plugin : TerrariaPlugin
     public override string Name => "Don't Fuck";
     public override string Author => "Cai 羽学";
     public override string Description => "当玩家聊天有敏感词时用*号代替该词";
-    public override Version Version => new Version(3, 1, 0);
+    public override Version Version => new Version(3, 2, 0);
     #endregion
 
     #region 注册与释放
@@ -72,44 +72,39 @@ public class Plugin : TerrariaPlugin
         var Text = args.Text;
         var Words = new List<string>(); // 用于存储玩家使用的敏感词
         var Count = 0;
-        var Command = false;
 
         // 检查是否为命令
         if (Text.StartsWith(TShock.Config.Settings.CommandSpecifier) || Text.StartsWith(TShock.Config.Settings.CommandSilentSpecifier))
         {
-            Command = true;
+            return;
         }
 
-        if (!Command)
+        foreach (var bad in Config.DirtyWords)
         {
-            foreach (var bad in Config.DirtyWords)
+            if (Text.Contains(bad, StringComparison.OrdinalIgnoreCase))
             {
-                if (Text.Contains(bad, StringComparison.OrdinalIgnoreCase))
-                {
-                    Count++;
-                    var Replace = new string('*', bad.Length); // 创建与脏话等长的星号字符串
-                    Text = Regex.Replace(Text, bad, Replace, RegexOptions.IgnoreCase); // 替换脏话
-                    Words.Add(bad); // 添加敏感词到列表
-                }
-            }
-
-            if (Count > 0)
-            {
-                TSPlayer.All.SendMessage(string.Format(TShock.Config.Settings.ChatFormat, plr.Group.Name, plr.Group.Prefix, plr.Name, plr.Group.Suffix, Text), plr.Group.R, plr.Group.G, plr.Group.B);
-                Console.Write(string.Format($"{plr.Name}：{args.Text}\n"));
-                Console.Write(GetString($"敏感词: {string.Join(",", Words)}\n")); // 打印所有敏感词
-
-                if (Config.Log) //单独记录敏感词
-                {
-                    var FilePath = Path.Combine(TShock.SavePath, "禁止脏话", "脏话纪录"); //写入日志的路径
-                    Directory.CreateDirectory(FilePath); // 创建日志文件夹
-                    var FileName = $"脏话纪录 {DateTime.Now.ToString("yyyy-MM-dd")}.txt"; //给日志名字加上日期
-                    File.AppendAllLines(Path.Combine(FilePath, FileName), new string[] { DateTime.Now.ToString("u") + $"\n玩家【{plr.Name}】敏感词:{string.Join(",", Words)}\n" }); //写入日志
-                }
+                Count++;
+                var Replace = new string('*', bad.Length); // 创建与脏话等长的星号字符串
+                Text = Regex.Replace(Text, bad, Replace, RegexOptions.IgnoreCase); // 替换脏话
+                Words.Add(bad); // 添加敏感词到列表
             }
         }
 
-        args.Handled = !Command;
+        if (Count > 0)
+        {
+            TSPlayer.All.SendMessage(string.Format(TShock.Config.Settings.ChatFormat, plr.Group.Name, plr.Group.Prefix, plr.Name, plr.Group.Suffix, Text), plr.Group.R, plr.Group.G, plr.Group.B);
+            Console.Write(string.Format($"{plr.Name}：{args.Text}\n"));
+            Console.Write(GetString($"敏感词: {string.Join(",", Words)}\n")); // 打印所有敏感词
+
+            if (Config.Log) //单独记录敏感词
+            {
+                var FilePath = Path.Combine(TShock.SavePath, "禁止脏话", "脏话纪录"); //写入日志的路径
+                Directory.CreateDirectory(FilePath); // 创建日志文件夹
+                var FileName = $"脏话纪录 {DateTime.Now.ToString("yyyy-MM-dd")}.txt"; //给日志名字加上日期
+                File.AppendAllLines(Path.Combine(FilePath, FileName), new string[] { DateTime.Now.ToString("u") + $"\n玩家【{plr.Name}】敏感词:{string.Join(",", Words)}\n" }); //写入日志
+            }
+            args.Handled = true;
+        }
     }
     #endregion
 }
