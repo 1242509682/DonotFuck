@@ -6,8 +6,16 @@ namespace DonotFuck;
 
 public class Configuration
 {
+    #region 实例变量
+    [JsonProperty("每页行数")]
+    public int PageSize = 30;
+
+    [JsonProperty("记录日志")]
+    public bool Log = true;
+
     [JsonProperty("脏话表")]
     public HashSet<string> DirtyWords { get; set; } = new HashSet<string>();
+    #endregion
 
     #region 读取与创建配置文件方法
     public static readonly string FilePath = Path.Combine(TShock.SavePath, "禁止脏话", "禁止脏话.json");
@@ -52,6 +60,35 @@ public class Configuration
             Configuration config = JsonConvert.DeserializeObject<Configuration>(text);
             config.Write();
         }
+    }
+    #endregion
+
+    #region 增删改方法
+    internal bool Exempt(string text)
+    {
+        return this.DirtyWords.Contains(text);
+    }
+
+    public bool Add(string text)
+    {
+        if (this.Exempt(text))
+        {
+            return false;
+        }
+        this.DirtyWords.Add(text);
+        this.Write();
+        return true;
+    }
+
+    public bool Del(string text)
+    {
+        if (this.Exempt(text))
+        {
+            this.DirtyWords.Remove(text);
+            this.Write();
+            return true;
+        }
+        return false;
     }
     #endregion
 }
