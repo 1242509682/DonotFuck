@@ -31,34 +31,22 @@ public class Configuration
         if (!File.Exists(FilePath))
         {
             WriteExample();
-            return JsonConvert.DeserializeObject<Configuration>(File.ReadAllText(FilePath));
         }
-        else
-        {
-            var jsonContent = File.ReadAllText(FilePath);
-            return JsonConvert.DeserializeObject<Configuration>(jsonContent)!;
-        }
+
+        return JsonConvert.DeserializeObject<Configuration>(File.ReadAllText(FilePath))!;
     }
 
-    public static void WriteExample()
+    public static void WriteExample() //内嵌文件方法
     {
-        Assembly assembly = Assembly.GetExecutingAssembly();
-        var NameSpace = assembly.GetName().Name.Trim();
-        var FolderName = "内嵌文件".Trim();
-        var FullName = $"{NameSpace}.{FolderName}.禁止脏话.json";
+        var assembly = Assembly.GetExecutingAssembly();
+        var FullName = $"{assembly.GetName().Name}.内嵌文件.禁止脏话.json";
 
-        Stream ResourceStream = assembly.GetManifestResourceStream(FullName);
-
-        if (ResourceStream == null)
+        using (var stream = assembly.GetManifestResourceStream(FullName))
+        using (var reader = new StreamReader(stream!))
         {
-            throw new InvalidOperationException($"无法找到嵌入资源：{FullName}");
-        }
-
-        using (StreamReader streamReader = new StreamReader(ResourceStream))
-        {
-            string text = streamReader.ReadToEnd();
-            Configuration config = JsonConvert.DeserializeObject<Configuration>(text);
-            config.Write();
+            var text = reader.ReadToEnd();
+            var config = JsonConvert.DeserializeObject<Configuration>(text);
+            config!.Write();
         }
     }
     #endregion
